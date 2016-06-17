@@ -59,6 +59,10 @@ func (self *ShardedRedis)handleMethod(cmd string,args ...interface{}) (interface
 	return nil,&RedisError{"Sharded redis error."}
 }
 
+func (self *ShardedRedis)Do(cmd string,args ...interface{})(interface{},error){
+	return self.handleMethod(cmd,args...)
+}
+
 //Get key
 func (self *ShardedRedis) Get(key string)([]uint8,error){
 	ret,err := self.handleMethod("GET",key)
