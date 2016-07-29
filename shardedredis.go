@@ -14,7 +14,7 @@ type ShardedRedis struct{
  */
 func NewShardedRedis()*ShardedRedis{
 	return &ShardedRedis{
-		consisHash : utils.NewConsistentHash(),
+		consisHash : utils.NewConsistentHash(true),
 	}
 }
 
