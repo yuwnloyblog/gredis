@@ -3,6 +3,7 @@ package gredis
 import (
 	"github.com/garyburd/redigo/redis"
 	"strings"
+	"net"
 	"strconv"
 )
 
@@ -36,7 +37,12 @@ func (self *RedisClient)handleMethod(cmd string,args ...interface{}) (interface{
 			return nil,err
 		}
 	}
-	return self.Conn.Do(cmd,args...)
+	ret,err := self.Conn.Do(cmd,args...)
+	switch err.(type) {
+		case *net.OpError:
+			self.Conn = nil
+	}
+	return ret,err
 }
 func (self *RedisClient)Do(cmd string,args ...interface{})(interface{},error){
 	return self.handleMethod(cmd,args...)
