@@ -95,7 +95,11 @@ func (self *RedisClient)MGet(keys ...interface{})([][]uint8,error){
 	if ret != nil&&err==nil{
 		var arr [][]uint8
 		for _,v := range ret.([]interface{}){
-			arr = append(arr, v.([]uint8))
+			if v != nil {
+				arr = append(arr, v.([]uint8))
+			}else{
+				arr = append(arr, []uint8("not_found"))
+			}
 		}
 		return arr,nil
 	}
