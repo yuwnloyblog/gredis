@@ -107,5 +107,5 @@ func (self *RedisClient)MSet(keyVals ...interface{})(string,error){
 	if err==nil&&ret!=nil{
 		return ret.(string),err
 	}
-	return "",err
+	return "FAIL",err
 }
