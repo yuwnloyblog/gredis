@@ -1,7 +1,6 @@
 package gredis
 
 import (
-	"github.com/garyburd/redigo/redis"
 	"strings"
 	"net"
 	"strconv"
@@ -10,13 +9,20 @@ import (
 type RedisClient struct{
 	Host string
 	Port int
-	Conn redis.Conn
+	Conn *Conn
+}
+
+func NewRedisClient(host string, port int)*RedisClient{
+	return &RedisClient{
+		Host : host,
+		Port : port,
+	}
 }
 
 //connect 
 func (self *RedisClient) connect()(error){
 	server := strings.Join([]string{self.Host,strconv.Itoa(self.Port)},":")
-	conn, err := redis.Dial("tcp", server)
+	conn, err := Dial("tcp", server)
 	self.Conn = conn
     return err
 }
